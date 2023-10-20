@@ -100,31 +100,19 @@ def celulas_vizinhas_livres(celula_atual, labirinto):
 
 def breadth_first_search(labirinto, inicio, goal, viewer):
     start_time = time.time()
-    # nos gerados e que podem ser expandidos (vermelhos)
     fronteira = deque()
-    # nos ja expandidos (amarelos)
     expandidos = set()
 
-    # adiciona o no inicial na fronteira
     fronteira.append(inicio)
 
-    # variavel para armazenar o goal quando ele for encontrado.
     goal_encontrado = None
 
-    # Repete enquanto nos nao encontramos o goal e ainda
-    # existem para serem expandidos na fronteira. Se
-    # acabarem os nos da fronteira antes do goal ser encontrado,
-    # entao ele nao eh alcancavel.
     while (len(fronteira) > 0) and (goal_encontrado is None):
 
-        # seleciona o no mais antigo para ser expandido
         no_atual = fronteira.popleft()
 
-        # busca os vizinhos do no
         vizinhos = celulas_vizinhas_livres(no_atual, labirinto)
 
-        # para cada vizinho verifica se eh o goal e adiciona na
-        # fronteira se ainda nao foi expandido e nao esta na fronteira
         for v in vizinhos:
             if v.y == goal.y and v.x == goal.x:
                 goal_encontrado = v
@@ -136,6 +124,7 @@ def breadth_first_search(labirinto, inicio, goal, viewer):
 
         expandidos.add(no_atual)
 
+        # Atualiza a visualização
         viewer.update(generated=fronteira,
                       expanded=expandidos)
         #viewer.pause()
@@ -177,6 +166,7 @@ def depth_first_search(labirinto, inicio, goal, viewer):
 
         expandidos.add(no_atual)
 
+        # Atualiza a visualização
         viewer.update(generated=fronteira,
                       expanded=expandidos)
         #viewer.pause()
@@ -198,8 +188,11 @@ def a_star_search(labirinto, inicio, goal, viewer):
     goal_encontrado = None
 
     while (len(fronteira) > 0) and (goal_encontrado is None):
+        # A fronteira será reorganizada de forma que os nós com menor custo total (custo atual + heurística) 
+        # fiquem no início da lista, enquanto os nós com custos totais maiores ficam no final
         fronteira.sort(key=lambda x: x[1] + x[2])
 
+        # Obtém o nó mais promissor
         no_atual, custo_atual, _ = fronteira.pop(0)
 
         vizinhos = celulas_vizinhas_livres(no_atual, labirinto)
@@ -209,6 +202,7 @@ def a_star_search(labirinto, inicio, goal, viewer):
                 goal_encontrado = v
                 break
             else:
+                # Calcula custos e adiciona à fronteira se apropriado
                 custo_vizinho = custo_atual + 1 
                 heuristica = distancia(v, goal)
                 custo_total = custo_vizinho + heuristica
@@ -216,6 +210,7 @@ def a_star_search(labirinto, inicio, goal, viewer):
                 if (not esta_contido(expandidos, v)) and (not any(x[0] == v for x in fronteira)):
                     fronteira.append((v, custo_vizinho, heuristica))
         expandidos.add(no_atual)
+        # Atualiza a visualização
         viewer.update(generated=[x[0] for x in fronteira],
                       expanded=expandidos)
         # viewer.pause()
@@ -237,6 +232,9 @@ def uniform_cost_search(labirinto, inicio, goal, viewer):
     goal_encontrado = None
 
     while (len(fronteira) > 0) and (goal_encontrado is None):
+        # Assim como no A-star a fronteira será reorganizada de forma que os nós 
+        # com menor custo total (custo atual + heurística) fiquem no início da lista, 
+        # enquanto os nós com custos totais maiores ficam no final
         fronteira.sort(key=lambda x: x[1])
 
         no_atual, custo_atual = fronteira.pop(0)
@@ -248,11 +246,13 @@ def uniform_cost_search(labirinto, inicio, goal, viewer):
                 goal_encontrado = v
                 break
             else:
+                # Calcula custo e adiciona à fronteira se apropriado
                 custo_vizinho = custo_atual + 1 
 
                 if (not esta_contido(expandidos, v)) and (not any(x[0] == v for x in fronteira)):
                     fronteira.append((v, custo_vizinho))
                     expandidos.add(v)
+        # Atualiza a visualização
         viewer.update(generated=[x[0] for x in fronteira],
                       expanded=expandidos)
         # viewer.pause()
