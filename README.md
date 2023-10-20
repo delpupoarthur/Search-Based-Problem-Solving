@@ -7,9 +7,9 @@ This work proposes the implementation and comparison of three search algorithms:
 # Solução de Problemas por Busca
 
 ## Introdução
-The field of Artificial Intelligence (AI) is constantly evolving, with the development of new algorithms and techniques to solve complex problems. Search algorithms are a fundamental tool in AI, used in a wide range of applications such as planning, games, and robotics.
+O campo da inteligência artificial (IA) está constantemente evoluindo, com o desenvolvimento de novos algoritmos e técnicas para resolver problemas complexos. Os algoritmos de busca são uma ferramenta fundamental em IA, sendo usados em uma ampla gama de aplicações, como planejamento, jogos e robótica.
 
-This work proposes the implementation and comparison of four search algorithms: Breadth-First Search, Depth-First Search, Uniform Cost Search, and A* Search. The basis for the comparison of the algorithms consisted of a map composed of white squares (representing possible paths) and black squares (indicating blocked areas). As an example, a 20x20 map is presented below:
+Este trabalho propõe a implementação e comparação de quatro algoritmos de busca, sendo eles: Breadth First Search, Depth-first search, Uniform cost search e A* search. A base para a comparação dos algoritmos consistiu em um mapa composto por quadrados brancos (representando caminhos possíveis) e quadrados pretos (indicando áreas bloqueadas). Como exemplo, apresenta-se um mapa 20x20 a seguir:
 
 ![MalhaExemplo](MalhaExemplo.png)
 
